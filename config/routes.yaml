@@ -1,0 +1,15 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+index:
+  path: /
+  controller: App\Controller\IndexController::index
+
+newarticle:
+  path: /newarticle
+  controller: App\Controller\ArticleObjectController::newArticleTest
+
+article_show:
+  path: article/{id}
+  controller: App\Controller\IndexController::show
