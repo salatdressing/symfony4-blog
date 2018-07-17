@@ -8,8 +8,12 @@ index:
 
 newarticle:
   path: /newarticle
-  controller: App\Controller\ArticleObjectController::newArticleTest
+  controller: App\Controller\NewArticleController::newArticleForm
 
 article_show:
-  path: article/{id}
+  path: /article/{id}
   controller: App\Controller\IndexController::show
+
+snake:
+  path: /snake
+  controller: App\Controller\SnakeController::index

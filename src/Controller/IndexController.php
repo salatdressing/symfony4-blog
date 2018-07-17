@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,17 +16,17 @@ class IndexController extends Controller
 
     public function index()
     {
-      $article = $this->getDoctrine()
+        $article = $this->getDoctrine()
         ->getRepository(Articles::class)
-        ->findAll();
+        ->getAllOrderDesc(0);
 
-      if (!$article) {
-        throw $this->createNotFoundException(
+        if (!$article) {
+            throw $this->createNotFoundException(
           'Keine Artikel vorhanden in der Datenbank'
         );
-      }
+        }
 
-      return $this->render('index/index.html.twig', [
+        return $this->render('index/index.html.twig', [
         'page_title' => 'Mein Blog',
         'blog_title' => 'Mein Blog',
         'article' => $article
@@ -39,21 +40,20 @@ class IndexController extends Controller
 
     public function show($id)
     {
-      $article = $this->getDoctrine()
+        $article = $this->getDoctrine()
         ->getRepository(Articles::class)
         ->find($id);
 
-      if (!$article) {
-        throw $this->createNotFoundException(
+        if (!$article) {
+            throw $this->createNotFoundException(
           'Kein Artikel vorhanden mit der ID ' . $id
         );
-      }
+        }
 
-      return $this->render('index/article.html.twig', [
+        return $this->render('index/article.html.twig', [
         'page_title' => 'Mein Blog',
         'blog_title' => 'Mein Blog',
         'article' => $article
       ]);
     }
-
 }
