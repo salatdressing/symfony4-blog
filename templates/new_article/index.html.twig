@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="de">
-
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -12,7 +11,6 @@
 
     <title>{{ page_title }}</title>
   </head>
-
   <body>
     <!-- ############################ NAVBAR ############################### -->
     <header>
@@ -48,23 +46,44 @@
     <!-- ############################# NAVBAR END ########################## -->
     <!-- ##################### MAIN SECTION ################################ -->
     <main class="gridbox gridbox1 mx-4 mt-5">
-      <h1>{{ article.articleTitle }}</h1>
-      <h5 class="text-muted">von
-        {{ article.isFrom }}</h5>
-      <p>
-        {{ article.articleContent }}
-      </p>
-      <a href="/">Zurück zur Startseite</a>
-    </main>
-    <footer class="gridbox gridbox2">
-      <!-- FOOTER CONTENT -->
-    </footer>
-    <!-- ##################### MAIN SECTION END ############################ -->
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-  </body>
-
-</html>
+      <h1>Neuen Artikel verfassen</h1>
+      {{ form_start(form) }}
+      {{ form_row(form.articleTitle, {attr: {class: 'form-control my-1', placeholder: 'Titel', autocomplete: 'off'}}) }}
+      {{ form_row(form.articleContent, {attr: {class: 'form-control my-1', placeholder: 'Dein Text', rows: '5'}}) }}
+      {{ form_row(form.save, {attr: {class: 'btn btn-lg btn-success mt-2'}}) }}
+      {{ form_end(form) }}
+      <footer class="gridbox gridbox2">
+        <!-- FOOTER CONTENT -->
+      </footer>
+      <!-- ##################### MAIN SECTION END ############################ -->
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+      <script>
+        $(document).ready(function() {
+          $("#form-newarticle").submit(function(e) {
+            e.preventDefault();
+            if ($("#article_title").val() == "" || $("#article_content").val() == "") {
+              $('#response-success').fadeOut();
+              $('#response-danger').fadeIn();
+              $('#response-danger').html("Bitte fülle beide Felder aus!");
+            } else {
+              $.ajax({
+                type: "POST",
+                url: "Engine/ajax/newarticle.php",
+                data: $("#form-newarticle").serialize(),
+                success: function(data) {
+                  $('#response-danger').fadeOut();
+                  $('#response-success').fadeIn();
+                  $("#response-success").html(data);
+                  document.getElementById("form-newarticle").reset();
+                }
+              })
+            }
+          });
+        });
+      </script>
+    </body>
+  </html>
